@@ -1,0 +1,25 @@
+{% extends 'account/base.html' %}
+{% block title %} Signup {% endblock %}
+
+
+{% block content %}
+
+    <div class="account-wrapper">
+        <form method= "post">
+            {% csrf_token %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p id="error-msg">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+            <input type="text" name="username" id="username" placeholder="Username" required>
+            <input type="email" name="email" id="email" placeholder="Email" required>
+            <input type="password" name="password1" placeholder="Password" required>
+            <input type="password" name="password2" placeholder="Confirm Password" required>
+            <button type="submit" id="signup-btn">Signup</button>
+            <span>Already signed up?</span>
+            <a href="{% url 'login' %}">Login</a>
+        </form>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,137 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.account-wrapper {
+    background: #fff;
+    box-shadow: hsl(0, 0%, 80%) 0 0 16px;
+    padding: 1.5em 2em;
+    border-radius: 10px;
+}
+.account-wrapper form input {
+    width: 100%;
+    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 10px;
+    border: 1.8px solid blue;
+}
+#signup-btn {
+    padding: 5px 25px;
+    font-size: large;
+    background: royalblue;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    display: block;
+    margin-bottom: 10px;
+}
+#error-msg {
+    color: red;
+    font-size: 15px;
+}
+.message-box {
+    background: skyblue;
+    border-radius: 5px;
+    width: 85%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.message-box span {
+    color: #fff;
+}
+#msg-btn {
+    width: 100%;
+    padding: 5px 15px;
+}
+#date {
+    font-size: 12px;
+    color: green;
+}
+.reduce-padding {
+    padding: 1em;
+}
+.go-right {
+    text-align: right;
+    margin-left: auto;
+}
+
+@media only screen and (min-width: 400px) {
+	.account-wrapper {
+		width: 320px:
+		margin: 1.5em 0.5em;
+	}
+}
+
+@media only screen and (max-width: 400px) {
+	.account-wrapper {
+		margin: 2em 2.5em 4.2em 2.5em;
+	}
+	.nav-links ul li {
+		list-style: none;
+	}
+	.nav-links {
+		box-shadow: hsl(0, 0%, 80%) 0 0 16px;
+		background: #fff;
+		padding: 1em 0;
+		position: fixed;
+		bottom: 0;
+		right: 0;
+		left: 0;
+	}
+	.nav-links ul {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+	}
+	.nav-links ul li a i {
+		font-size: 1.5em;
+	}
+	.nav-links ul li a:visited {
+		color: blue;
+	}
+	.notice {
+		font-size: 10px;
+		box-shadow: hsl(0, 0%, 80%) 0 0 16px;
+		background: #fff;
+		padding: 2px 8px;
+		border-radius: 4px;
+	}
+	.show-link {
+		position: fixed;
+		bottom: 3.8em;
+		left: 0;
+		right: 0;
+	}
+	.show-link ul {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+	}
+	.show-link ul li {
+		list-style: none;
+	}
+	#p, #h, #s {
+		visibility: hidden;
+	}
+	#form-wrapper {
+		margin: 5em 3em;
+	}
+	#form-wrapper input[type="text"],
+	#form-wrapper input[type="password"] {
+		width: 100%;
+		display: inline-block;
+		margin-bottom: 10px;
+		padding: 10px;
+	}
+	#form-wrapper button {
+		padding: 10px 20%;
+		border: 1.5px solid blue;
+		border-radius: 10px;
+		background: #fff;
+	}
+	#inner {
+		margin-bottom: 10px;
+		text-align: right;
+	}
+}
