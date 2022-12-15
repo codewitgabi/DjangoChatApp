@@ -9,4 +9,10 @@ class MessageSerializer(serializers.ModelSerializer):
 		model = Message
 		fields = "__all__"
 		
-		
+
+class ChatterSerializer(serializers.ModelSerializer):
+	user = serializers.StringRelatedField()
+	friends = serializers.StringRelatedField(many=True)
+	class Meta:
+		model = Chatter
+		fields = "__all__"

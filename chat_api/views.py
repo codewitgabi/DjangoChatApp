@@ -2,8 +2,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import generics
-from .serializers import MessageSerializer
+from .serializers import MessageSerializer, ChatterSerializer
 from account.models import Message, Chatter
+from rest_framework import permissions
 
 
 @api_view(["GET"])
@@ -53,3 +54,8 @@ def post_message(request, id):
 			serializer.save(receiver= receiver, sender= sender)
 			return Response(serializer.data, status= status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		
+		
+class ChatterListView(generics.ListAPIView):
+	serializer_class = ChatterSerializer
+	queryset = Chatter.objects.all()
