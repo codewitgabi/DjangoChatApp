@@ -1,26 +1,11 @@
 {% extends 'account/base.html' %}
+{% load static %}
 {% block title %} Chat {% endblock %}
 
 
 {% block content %}
 
-<nav>
-	<div class="nav-links">
-		<ul>
-			<li><a href="{% url 'home' request.user.id request.user.username %}"><i class="fa fa-user" id="ai" onmouseover="showPopBox(p);" onmouseout="hidePopBox();"></i></a></li>
-			<li><a href="#"><i class="fa fa-home" id="hi" onmouseover="showPopBox(h);" onmouseout="hidePopBox();"></i></a></li>
-			<li><a href="#"><i class="fa fa-sign-out" id="si" onmouseover="showPopBox(s);" onmouseout="hidePopBox();"></i></a></li>
-		</ul>
-	</div>
-</nav>
-
-<div class="show-link">
-	<ul>
-		<li class="notice" id="p">Friends</li>
-		<li class="notice" id="h">Chat</li>
-		<li class="notice" id="s">Logout</li>
-	</ul>
-</div>
+	{% include "account/nav.html" %}
 
 <div class="account-wrapper reduce-padding">
 
@@ -78,30 +63,6 @@
 	}
 	window.setInterval(getChatMessages, 1000);
 
-</script>
-
-<script>
-	var p = document.getElementById("p");
-	var h = document.getElementById("h");
-	var s = document.getElementById("s");
-	
-	function hidePopBox () 
-		{
-			p.style.visibility = "";
-			h.style.visibility = "";
-			s.style.visibility = "";
-		}		
-		
-	function showPopBox(arg)
-	{
-		if (arg.style.visibility == "")
-		{
-			hidePopBox();
-			arg.style.visibility = "visible";
-		} else {
-			arg.style.visibility = "";
-		}
-	}
 </script>
 
 

@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Friends</title>
+{% extends 'account/base.html' %}
+{% load static %}
+{% block title %} Friends {% endblock %}
+
+
+{% block content %}
     <style>
         * {
             margin: 0;
@@ -68,8 +67,9 @@
             }
         }
     </style>
-</head>
-<body>
+
+	{% include "account/nav.html" %}
+	
     <div class="header">
 		<legend class="title">Friends [{{ friends.count }}]</legend>
 	</div>
@@ -103,5 +103,5 @@
 	<footer>
 		codewitgabi &copy;2022
 	</footer>
-</body>
-</html>
+
+{% endblock %}
