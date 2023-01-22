@@ -1,76 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Chat Application</title>
-	<style>
-		.title {
-			font-weight: 400;
-			font-size: 1.2em;
-			text-align: center;
-			margin: 1em 0;
-		}
-		.wrapper {
-			margin: 2em 10%;
-		}
-		.img {
-			width: 100%;
-			height: 100px;
-			object-fit: cover;
-		}
-		.row {
-			background: #fff;
-			box-shadow: hsl(0, 0%, 80%) 0 0 16px;
-			border-radius: 8px;
-		}
-		.uname {
-			font-size: 0.8em;
-		}
-		.row:after {
-			content: "";
-			display: table;
-			clear: both;
-		}
-		.col {
-			float: left;
-			width: 30%;
-			margin: 1.6%;
-		}
-		.online {
-			width: 10px;
-			height: 10px;
-			border-radius: 5px;
-			background: green;
-			opacity: 0.7;
-		}
-		footer {
-			text-align: center;
-			font-size: 14px;
-			color: blue;
-			margin: 10px;
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Friends</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .header, .wrapper {
+            margin: 1em;
+            padding: 15px;
+            background: #fff;
+            box-shadow: 0 0 10px green;
+            /*border-radius: 10px;*/
+        }
+        .header legend {
+            font-size: 1.2em;
+            font-weight: 400;
+            font-family: Helvetica;
+        }
+        .wrapper {
+            border-radius: 0;
+            box-shadow: 0 0 10px blue;
+            padding: 5px;
+        }
+        .flex-2 {
+            display: flex;
+            gap: 8px;
+            margin: 8px 0;
+        }
+        .img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .online {
+            background: lightgreen;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+        }
+        footer {
+            text-align: center;
+            margin: 10px 1em;
+            color: blue;
+        }
+        .recent-msg {
+            font-family: Helvetica;
+            font-weight: 400;
+            font-size: 1rem;
+            margin-top: 1em;
+        }
+        @media only screen and (min-width: 658px) {
+            body {
+                width: 600px;
+                margin: 2em auto;
+            }
+        }
+        @media only screen and (min-width: 800px) {
+            body {
+                width: 700px;
+            }
+        }
+    </style>
 </head>
 <body>
-	<div class="wrapper">
-		<legend class="title">Friends -> {{ friends.count }}</legend>
-		<div class="row">
-		{% for friend in friends %}
-			<div class="col">
-				<a href="{% url 'chat' friend.id friend.user.username %}"><img src="{{ friend.image.url }}" class="img" alt=""></a>
-				<legend><i class="uname">
-					@{{ friend.user.username }}
-				</i></legend>
-				<div class="online"></div>
-			</div>
-		{% endfor %}
-		</div>
-		
-		<footer>
-			codewitgabi &copy;2022
-		</footer>
+    <div class="header">
+		<legend class="title">Friends [{{ friends.count }}]</legend>
 	</div>
+    
+    <div class="wrapper">
+		<div class="row">
+			{% for friend in friends %}
+				<div class="flex-2">
+					<!-- first col -->
+					<div class="l-left-part">
+						<a href="{% url 'chat' friend.id friend.user.username %}">
+							<img src="{{ friend.image.url }}" class="img" alt="">
+						</a>
+					</div>
+					<hr>
+					<!-- second col -->
+					<div class="r-flex-part">
+						<legend>
+							<i class="uname">
+								@{{ friend.user.username }}
+							</i>
+						</legend>
+						<div class="online"></div>
+						<p class="recent-msg">This is my most recent message</p>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	
+	<footer>
+		codewitgabi &copy;2022
+	</footer>
 </body>
 </html>
