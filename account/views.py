@@ -83,7 +83,8 @@ def chat(request, id, username):
 	context = {
 		"chat_messages": chat_messages,
 		"id": id,
-		"uname": username
+		"uname": username,
+		"friend": receiver,
 	}
 	
 	return render(request, "account/chat.html", context)
