@@ -1,24 +1,21 @@
-{% extends 'account/base.html' %}
+{% extends "account/root.html" %}
+{% load crispy_forms_tags %}
 {% block title %} Login {% endblock %}
 
-
 {% block content %}
-
-    <div class="account-wrapper">
-        <form method= "post">
-            {% csrf_token %}
-            {% if messages %}
-                {% for message in messages %}
-                    <p id="error-msg">{{ message }}</p>
-                {% endfor %}
-            {% endif %}
-            {% csrf_token %}
-            <input type="text" name="username" id="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required class= "passwd">
-            <button type="submit" id="signup-btn">Login</button>
-            <span>Not signed up?</span>
-            <a href="{% url 'signup' %}">Signup</a>
-        </form>
-    </div>
+                  
+	<form class="row g-3 needs-validation" method= "post" novalidate>
+	{% csrf_token %}
+		{{ form|crispy }}
+		
+		<div class="col-12">
+			<button class="btn btn-primary w-100" type="submit">Login</button>
+		</div>
+		
+		<div class="col-12">
+			<p class="small mb-0">Don't have account? <a href="{%  url 'signup' %}">Create an account</a></p>
+		</div>
+		
+	</form>
 
 {% endblock %}

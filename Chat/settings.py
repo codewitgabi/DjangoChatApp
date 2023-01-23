@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "account.apps.AccountConfig",
     "chat_api",
     "rest_framework",
+    "crispy_forms",
 ]
 
 MIDDLEWARE = [
@@ -140,3 +141,8 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = "account.User"
+LOGIN_REDIRECT_URL = "signup"
+LOGIN_URL = "account:login"
+
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"

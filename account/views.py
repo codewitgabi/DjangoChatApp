@@ -1,14 +1,16 @@
 from django.shortcuts import render, redirect
-from .models import Chatter, Message
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import auth
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import get_user_model
+from .models import Chatter, Message
+from .forms import RegisterForm
 import json
 
 
 User = get_user_model()
+
 
 def is_authenticated(func):
 	def wrapper(request):
@@ -20,32 +22,36 @@ def is_authenticated(func):
 
 @is_authenticated
 def signup(request):
+	form = RegisterForm()
 	if request.method == 'POST':
-		username = request.POST.get('username')
-		email = request.POST.get('email')
-		password1 = request.POST.get('password1')
-		password2 = request.POST.get('password2')
-		
-		if password1 == password2:
-			if User.objects.filter(username= username).exists():
-				messages.info(request, 'Username already in use')
-				return redirect('signup')
-			elif User.objects.filter(email= email).exists():
-				messages.info(request, 'Email already in use')
-				return redirect('login')
+		form = RegisterForm(request.POST)
+		if form.is_valid():
+			password1 = form.cleaned_data.get("password1")
+			password2 = form.cleaned_data.get("password2")
+			if password1 == password2:
+				form.save()			
+				return redirect("login")
 			else:
-				user = User.objects.create_user(username= username, email= email, password= password2)
-				user.save()
-				return redirect('login')
+				messages.info(request, "Passwords do not match")
+				return redirect("signup")
 		else:
-			messages.info(request, 'Passwords do not match')
-			return redirect('signup')
+			username = form.cleaned_data.get("username")
+			email = form.cleaned_data.get("email")
+			
+			if User.objects.filter(username=username).exists():
+				messages.info(request, f"User with username {username} already exists!")
+				return redirect("signup")
+				
+			if User.objects.filter(email=email).exists():
+				messages.info(request, f"User with email {email} already exists!")
+				return redirect("signup")
 	
-	return render(request, 'account/signup.html')
+	return render(request, 'account/signup.html', {"form": form})
 	
 
 @is_authenticated
 def login(request):
+	form = RegisterForm()
 	if request.method == 'POST':
 		username = request.POST.get('username')
 		password = request.POST.get('password')
@@ -58,7 +64,7 @@ def login(request):
 		else:
 			messages.error(request, 'Incorrect username or password')
 			return redirect('login')
-	return render(request, 'account/login.html')
+	return render(request, 'account/login.html', {"form": form})
 	
 
 @login_required(login_url= "login")
