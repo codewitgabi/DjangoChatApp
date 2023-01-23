@@ -42,7 +42,7 @@ def signup(request):
 				messages.info(request, f"User with username {username} already exists!")
 				return redirect("signup")
 				
-			if User.objects.filter(email=email).exists():
+			elif User.objects.filter(email=email).exists():
 				messages.info(request, f"User with email {email} already exists!")
 				return redirect("signup")
 	
