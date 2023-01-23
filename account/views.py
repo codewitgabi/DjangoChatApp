@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from .models import Chatter, Message
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User, auth
+from django.contrib.auth.models import auth
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
+from django.contrib.auth import get_user_model
 import json
 
+
+User = get_user_model()
 
 def is_authenticated(func):
 	def wrapper(request):

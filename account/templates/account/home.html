@@ -10,6 +10,11 @@
             padding: 0;
             box-sizing: border-box;
         }
+        body {
+        	display: flex;
+        	flex-direction: column;
+        	min-height: 100vh;
+        }
         .header, .wrapper {
             margin: 1em;
             padding: 15px;
@@ -46,7 +51,8 @@
         }
         footer {
             text-align: center;
-            margin: 10px 1em;
+            margin-top: auto;
+            margin-bottom: 4.5em;
             color: blue;
         }
         .recent-msg {
@@ -68,6 +74,8 @@
         }
     </style>
 
+	<div>
+	
 	{% include "account/nav.html" %}
 	
     <div class="header">
@@ -98,6 +106,8 @@
 				</div>
 			{% endfor %}
 		</div>
+	</div>
+	
 	</div>
 	
 	<footer>
