@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "chat_api",
     "rest_framework",
     "crispy_forms",
+    "social_django",
 ]
 
 MIDDLEWARE = [
@@ -52,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    "social_django.middleware.SocialAuthExceptionMiddleware",
 ]
 
 ROOT_URLCONF = 'Chat.urls'
@@ -67,9 +70,17 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+	"social_core.backends.facebook.FacebookOAuth2",
+	"django.contrib.auth.backends.ModelBackend",
 ]
 
 WSGI_APPLICATION = 'Chat.wsgi.application'
@@ -142,7 +153,11 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = "account.User"
 LOGIN_REDIRECT_URL = "signup"
-LOGIN_URL = "account:login"
+LOGIN_URL = "login"
 
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+
+SOCIAL_AUTH_FACEBOOK_KEY = ""
+SOCIAL_AUTH_FACEBOOK_SECRET = ""
