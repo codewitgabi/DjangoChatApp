@@ -5,6 +5,8 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
 	path("", views.signup, name= "signup"),
+	path("add-friends/", views.add_friends, name= "add_friends"),
+	path("complete-add-friend", views.complete_add_friend, name= "complete-add-friend"),
 	path("login/",
 		auth_views.LoginView.as_view(
 		template_name="account/login.html",

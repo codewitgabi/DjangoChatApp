@@ -111,7 +111,7 @@
 	.show-link ul li {
 		list-style: none;
 	}
-	#p, #h, #s {
+	#p, #h, #s, #a {
 		visibility: hidden;
 	}
 	#form-wrapper {

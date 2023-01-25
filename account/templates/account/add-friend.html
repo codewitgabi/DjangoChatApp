@@ -1,0 +1,60 @@
+{% extends 'account/base.html' %}
+{% load static %}
+{% block title %} Add Friends {% endblock %}
+
+
+{% block content %}
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .add-friend-wrapper {
+            background: #fff;
+            padding: 10px;
+            box-shadow: hsl(0, 0%, 40%) 0 0 10px;
+            display: flex;
+            gap: 1em;
+            margin: 1em;
+        }
+        #friend-img {
+            width: 100px;
+            height: 100%;
+            object-fit: cover;
+        }
+        .friend-info {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+        }
+        #add-friend-btn {
+            background: blue;
+            color: #fff;
+            padding: 4px 10px;
+            border: 2px solid #000;
+            border-radius: 8px;
+        }
+    </style>
+    
+	{% include "account/nav.html" %}
+    
+    <main>
+    {% if friends %}
+	    {% for friend in friends %}
+	        <div class="add-friend-wrapper">
+	            <img src="{{ friend.image.url }}" alt="" id="friend-img">
+	            <div class="friend-info">
+	                <legend class="friend-username">{{ friend }}</legend>
+	                <button data-friend="{{ friend.user }}" id="add-friend-btn">Add friend</button>
+	            </div>
+	        </div>
+	     {% endfor %}
+	     
+	{% else %}
+	     <h3 style="text-align: center;">No Friend to Add</h3>
+	{% endif %}
+    </main>
+
+{% endblock %}

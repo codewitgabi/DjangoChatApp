@@ -4,6 +4,7 @@ from django.contrib.auth.models import auth
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from .models import Chatter, Message
 from .forms import RegisterForm
 import json
@@ -76,6 +77,27 @@ def home(request, id, username):
 		"friends": friends,
 	}
 	return render(request, "account/home.html", context)
+	
+
+@login_required(login_url="login")
+def add_friends(request):
+	user = request.user
+	chatter_obj = Chatter.objects.get(user= user)
+	friends = []
+	for data in Chatter.objects.all():
+		if not data in chatter_obj.friends.all() and data != chatter_obj:
+			friends.append(data)
+			
+	return render(request, "account/add-friend.html", {"friends": friends})
+	
+	
+def complete_add_friend(request):
+	data = json.loads(request.body)
+	user_obj = User.objects.get(username=data.get("friend"))
+	chatter_obj = Chatter.objects.get(user= user_obj)
+	c = Chatter.objects.get(user=request.user)
+	c.friends.add(chatter_obj)
+	return JsonResponse("done", safe= False)
 	
 	
 @login_required(login_url= "login")
