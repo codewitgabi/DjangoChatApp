@@ -4,6 +4,7 @@ from django.contrib.auth.models import auth
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import get_user_model
+from verify_email.email_handler import send_verification_email
 from django.db.models import Q
 from .models import Chatter, Message
 from .forms import RegisterForm
@@ -20,6 +21,10 @@ def is_authenticated(func):
 		return func(request)
 	return wrapper
 	
+	
+def signup_redirect(request):
+	return render(request, "account/verify-email.html")
+	
 
 @is_authenticated
 def signup(request):
@@ -27,8 +32,8 @@ def signup(request):
 	if request.method == 'POST':
 		form = RegisterForm(request.POST)
 		if form.is_valid():
-			form.save()
-			return redirect("login")
+			inactive_user = send_verification_email(request, form)
+			return redirect("verify-email")
 	return render(request, 'account/signup.html', {"form": form})
 
 

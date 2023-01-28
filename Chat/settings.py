@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "crispy_forms",
     "social_django",
+    "verify_email.apps.VerifyEmailConfig",
 ]
 
 MIDDLEWARE = [
@@ -151,14 +152,23 @@ REST_FRAMEWORK = {
 	]
 }
 
+# Custom configurations
+
 AUTH_USER_MODEL = "account.User"
 LOGIN_REDIRECT_URL = "signup"
 LOGIN_URL = "login"
 LOGOUT_REDIRECT_URL = "login"
 
-
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
+SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get("FACEBOOK_KEY")
+SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get("FACEBOOK_SECRET")
 
-SOCIAL_AUTH_FACEBOOK_KEY = ""
-SOCIAL_AUTH_FACEBOOK_SECRET = ""
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "codewitgabi222@gmail.com" #os.environ.get("EMAIL_HOST")
+EMAIL_HOST_PASSWORD = "ijwoixwhyxwvjzkp" #os.environ.get("EMAIL_PASSWORD")
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "djchat<no_reply@domain.com>"
+

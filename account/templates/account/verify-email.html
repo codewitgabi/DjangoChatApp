@@ -1,0 +1,11 @@
+{% extends "account/root.html" %}
+{% block title %} Verify Email {% endblock %}
+
+
+{% block content %}
+
+    <div class="alert alert-info">
+        An email has been sent to your email. Verify your email to continue. If you didn't receive any email it means that you provided an incorrect email or you have a poor network connection. which ever way go back and <a href= "{{ request.META.HTTP_REFERER }}">register</a>
+    </div>
+
+{% endblock %}
