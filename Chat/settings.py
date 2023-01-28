@@ -154,6 +154,7 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = "account.User"
 LOGIN_REDIRECT_URL = "signup"
 LOGIN_URL = "login"
+LOGOUT_REDIRECT_URL = "login"
 
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"

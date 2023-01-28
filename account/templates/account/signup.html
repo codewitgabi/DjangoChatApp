@@ -10,53 +10,10 @@
 				<p class="text-center small">Enter your personal details to create account</p>
 			</div>
 			
-			{% if messages %}
-				{% for message in messages %}
-					<div class= "alert alert-danger">{{ message }}</div>
-				{% endfor %}
-			{% endif %}
-		
-			<form class="row g-3 needs-validation" method= "post" novalidate>
+			<form class="row g-3 needs-validation" method= "post">
 			{% csrf_token %}
 		
-				<div class="col-12">
-					<label for="yourEmail" class="form-label">Your Email</label>
-					{{ form.email }}
-					<div class="invalid-feedback">
-						Please enter a valid Email adddress!
-					</div>
-				</div>
-		
-				<div class="col-12">
-					<label for="yourUsername" class="form-label">Username</label>
-					<div class="input-group has-validation">
-						<span class="input-group-text" id="inputGroupPrepend">@</span>
-						{{ form.username }}
-						<div class="invalid-feedback">
-							Please choose a username.
-						</div>
-					</div>
-				</div>
-		
-				<div class="col-12">
-					<label for="yourPassword" class="form-label">Password</label>
-					{{ form.password1 }}
-					<div class="invalid-feedback">
-						Please enter your password!
-					</div>
-				</div>
-				
-				<div class="col-12">
-					<label for="yourPassword" class="form-label">Confirm Password</label>
-					{{ form.password2 }}
-					<div class="invalid-feedback">
-						Please enter your password!
-					</div>
-				</div>
-				
-				<div class="col-12">
-					<a class="alert alert-primary" href="{% url 'social:begin' 'facebook' %}">Login With Facebook</a>
-				</div>
+			{{ form|crispy }}
 												
 				<div class="col-12">
 					<button class="btn btn-primary w-100" type="submit">Create Account</button>
@@ -68,7 +25,11 @@
 					</p>
 				</div>
 				
-			</form>
+			</form><br>
+			
+			<div class="col-12">
+				<a class="alert alert-primary" href="{% url 'social:begin' 'facebook' %}">Login With Facebook</a>
+			</div>
 		</div>
 	</div>
 

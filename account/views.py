@@ -27,46 +27,10 @@ def signup(request):
 	if request.method == 'POST':
 		form = RegisterForm(request.POST)
 		if form.is_valid():
-			password1 = form.cleaned_data.get("password1")
-			password2 = form.cleaned_data.get("password2")
-			if password1 == password2:
-				form.save()			
-				return redirect("login")
-			else:
-				messages.info(request, "Passwords do not match")
-				return redirect("signup")
-		else:
-			username = form.cleaned_data.get("username")
-			email = form.cleaned_data.get("email")
-			
-			if User.objects.filter(username=username).exists():
-				messages.info(request, f"User with username {username} already exists!")
-				return redirect("signup")
-				
-			elif User.objects.filter(email=email).exists():
-				messages.info(request, f"User with email {email} already exists!")
-				return redirect("signup")
-	
+			form.save()
+			return redirect("login")
 	return render(request, 'account/signup.html', {"form": form})
-	
 
-@is_authenticated
-def login(request):
-	form = RegisterForm()
-	if request.method == 'POST':
-		username = request.POST.get('username')
-		password = request.POST.get('password')
-		
-		user = auth.authenticate(username= username, password= password)
-		
-		if user is not None:
-			auth.login(request, user)
-			return redirect("home", id= request.user.id, username= request.user.username)
-		else:
-			messages.error(request, 'Incorrect username or password')
-			return redirect('login')
-	return render(request, 'account/login.html', {"form": form})
-	
 
 @login_required(login_url= "login")
 def home(request, id, username):
