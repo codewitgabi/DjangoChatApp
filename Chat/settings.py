@@ -82,6 +82,8 @@ TEMPLATES = [
 
 AUTHENTICATION_BACKENDS = [
 	"social_core.backends.facebook.FacebookOAuth2",
+	"social_core.backends.google.GoogleOAuth2",
+	"social_core.backends.github.GithubOAuth2",
 	"django.contrib.auth.backends.ModelBackend",
 ]
 
@@ -176,5 +178,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 SOCIAL_AUTH_FACEBOOK_KEY = config("FACEBOOK_KEY")
 SOCIAL_AUTH_FACEBOOK_SECRET = config("FACEBOOK_SECRET")
-
+SOCIAL_AUTH_GITHUB_KEY = config("GITHUB_KEY")
+SOCIAL_AUTH_GITHUB_SECRET= config("GITHUB_SECRET")
 
