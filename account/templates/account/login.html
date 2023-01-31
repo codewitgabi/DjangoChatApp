@@ -23,8 +23,13 @@
 				
 				<div class="col-12">
 					<p class="small mb-0">Don't have account? <a href="{%  url 'signup' %}">Create an account</a></p>
-				</div>		
+				</div>
 			</form>
+			<div class="col-12 mt-3">
+					<button class="btn btn-primary w-100">
+						<a style="color: #fff;" href="{% url 'social:begin' 'facebook' %}">Login With Facebook</a>
+					</button>
+				</div>
 		</div>
 	</div>
 

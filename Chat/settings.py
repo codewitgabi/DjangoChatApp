@@ -153,17 +153,14 @@ REST_FRAMEWORK = {
 	]
 }
 
-# Custom configurations
+# LOCAL CONFIGURATION
 
 AUTH_USER_MODEL = "account.User"
 LOGIN_REDIRECT_URL = "signup"
 LOGIN_URL = "login"
 LOGOUT_REDIRECT_URL = "login"
 
-CRISPY_TEMPLATE_PACK = "bootstrap4"
-
-SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get("FACEBOOK_KEY")
-SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get("FACEBOOK_SECRET")
+# EMAIL CONFIGURATION
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.gmail.com"
@@ -172,4 +169,12 @@ EMAIL_HOST_USER = config("EMAIL_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_PASSWORD")
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "djchat<no_reply@domain.com>"
+
+# THIRD PARTY PACKAGE CONFIGURATION
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+SOCIAL_AUTH_FACEBOOK_KEY = config("FACEBOOK_KEY")
+SOCIAL_AUTH_FACEBOOK_SECRET = config("FACEBOOK_SECRET")
+
 
