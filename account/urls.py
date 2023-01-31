@@ -4,6 +4,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
 	path("", views.signup, name= "signup"),
+	path("update/<int:id>/", views.update, name="update-profile"),
 	path("add-friends/", views.add_friends, name= "add_friends"),
 	path("verify-email/", views.signup_redirect, name="verify-email"),
 	path("complete-add-friend", views.complete_add_friend, name= "complete-add-friend"),

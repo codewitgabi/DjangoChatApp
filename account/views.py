@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import auth
 from django.contrib import messages
@@ -7,7 +7,9 @@ from django.contrib.auth import get_user_model
 from verify_email.email_handler import send_verification_email
 from django.db.models import Q
 from .models import Chatter, Message
-from .forms import RegisterForm
+from .forms import (RegisterForm,
+	ChatterUpdateForm,
+	UserUpdateForm)
 import json
 
 
@@ -19,6 +21,14 @@ def is_authenticated(func):
 		if request.user.is_authenticated:
 			return redirect("home", id= request.user.id, username= request.user.username)
 		return func(request)
+	return wrapper
+	
+	
+def is_account_owner(func):
+	def wrapper(request, id):
+		if request.user.id == id:
+			return func(request, id)
+		return HttpResponse("Can't view this page")
 	return wrapper
 	
 	
@@ -59,6 +69,21 @@ def add_friends(request):
 			
 	return render(request, "account/add-friend.html", {"friends": friends})
 	
+
+@login_required(login_url="login")
+@is_account_owner
+def update(request, id):
+	chatter = get_object_or_404(Chatter, id=id)
+	form1 = ChatterUpdateForm(request.POST or None,
+		request.FILES, instance=chatter)
+	form2 = UserUpdateForm(
+		request.POST or None, instance=chatter.user)
+		
+	if form1.is_valid() and form2.is_valid():
+		form1.save()
+		form2.save()
+		
+	return render(request, "account/update-profile.html", {"form1": form1, "form2": form2})
 	
 def complete_add_friend(request):
 	data = json.loads(request.body)

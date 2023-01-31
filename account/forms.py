@@ -1,6 +1,8 @@
-from account.models import User
+from account.models import User, Chatter
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from django.forms import inlineformset_factory
+
 
 class RegisterForm(UserCreationForm):
 	def __init__(self, *args, **kwargs):
@@ -11,5 +13,22 @@ class RegisterForm(UserCreationForm):
 	class Meta:
 		model = User
 		fields = ["username", "email", "password1", "password2"]
+
+
+class ChatterUpdateForm(forms.ModelForm):
+	class Meta:
+		model = Chatter
+		fields = ["image"]
 		
-	
+		
+class UserUpdateForm(forms.ModelForm):
+	class Meta:
+		model = User
+		fields = [
+			"username",
+			"email",
+			"first_name",
+			"last_name",
+		]
+		
+		

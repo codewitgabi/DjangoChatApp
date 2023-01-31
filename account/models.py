@@ -20,6 +20,10 @@ class Chatter(models.Model):
 	
 	def __str__(self):
 		return self.user.username
+	
+	@property
+	def recent_message(self):
+		print(dir(self))
 		
 		
 class Message(models.Model):

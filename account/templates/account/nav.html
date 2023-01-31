@@ -2,7 +2,7 @@
 	<div class="nav-links">
 		<ul>
 			<li><a href="{% url 'add_friends' %}"><i class="fa fa-user-plus" id="au" onmouseover="showPopBox(a);" onmouseout="hidePopBox();"></i></a></li>
-			<li><a href="#"><i class="fa fa-user" id="ai" onmouseover="showPopBox(p);" onmouseout="hidePopBox();"></i></a></li>
+			<li><a href="{% url 'update-profile' request.user.id %}"><i class="fa fa-cog" id="ai" onmouseover="showPopBox(p);" onmouseout="hidePopBox();"></i></a></li>
 			<li><a href="{% url 'home' request.user.id request.user.username %}"><i class="fa fa-home" id="hi" onmouseover="showPopBox(h);" onmouseout="hidePopBox();"></i></a></li>
 			<li><a href="{% url 'logout' %}"><i class="fa fa-sign-out" id="si" onmouseover="showPopBox(s);" onmouseout="hidePopBox();"></i></a></li>
 		</ul>
