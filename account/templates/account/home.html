@@ -1,5 +1,6 @@
 {% extends 'account/base.html' %}
 {% load static %}
+{% load custom_tags %}
 {% block title %} Friends {% endblock %}
 
 
@@ -101,7 +102,7 @@
 							</i>
 						</legend>
 						<div class="online"></div>
-						<p class="recent-msg">This is my most recent message</p>
+						<p class="recent-msg">{% display_recent_message request friend %}</p>
 					</div>
 				</div>
 			{% endfor %}
