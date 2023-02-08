@@ -22,7 +22,7 @@ def display_recent_message(request, friend):
 		
 	last_message = sender_messages.union(
 		receiver_messages)
+	
+	last_message = last_message.last() if last_message.last() is not None else ""
 		
-	print(last_message.last())
-		
-	return {"last_message": last_message.last()}
+	return {"last_message": last_message}
