@@ -70,28 +70,31 @@
 	</script>
 	
 	<script>
-		let addFriendBtn = document.querySelector("#add-friend-btn");
+		let addFriendBtn = document.getElementsByClassName("add-friend-btn");
 		let add_friend_url = "{% url 'complete-add-friend' %}";
 		
-		addFriendBtn.addEventListener("click", function () {
-			let data = this.dataset.friend;
-			fetch(add_friend_url, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					"X-CSRFToken": csrftoken
-				},
-				body: JSON.stringify({"friend": data})
+		for (let btn of addFriendBtn) {
+			btn.addEventListener("click", function () {
+				let data = this.dataset.friend;
+				
+				fetch(add_friend_url, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						"X-CSRFToken": csrftoken
+					},
+					body: JSON.stringify({"friend": data})
+				})
+				.then(resp => resp.json())
+				.then(data => {
+					btn.textContent = "Followed";
+					btn.disabled = true;
+				})
+				.catch(error => {
+					alert(error);
+				})
 			})
-			.then(resp => resp.json())
-			.then(data => {
-				addFriendBtn.textContent = "Added"
-				addFriendBtn.disabled = true;
-			})
-			.catch(error => {
-				alert(error);
-			})
-		})
+		}
 	</script>
 	
 	<script src="{% static 'js/nav.js' %}"></script>

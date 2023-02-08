@@ -29,7 +29,7 @@
             justify-content: space-between;
             flex-direction: column;
         }
-        #add-friend-btn {
+        .add-friend-btn {
             background: blue;
             color: #fff;
             padding: 4px 10px;
@@ -47,7 +47,7 @@
 	            <img src="{{ friend.image.url }}" alt="" id="friend-img">
 	            <div class="friend-info">
 	                <legend class="friend-username">{{ friend }}</legend>
-	                <button data-friend="{{ friend.user }}" id="add-friend-btn">Add friend</button>
+	                <button data-friend="{{ friend.user }}" class="add-friend-btn">Add friend</button>
 	            </div>
 	        </div>
 	     {% endfor %}
