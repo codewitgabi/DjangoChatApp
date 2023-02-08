@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 
 class User(AbstractUser):
@@ -22,8 +23,14 @@ class Chatter(models.Model):
 		return self.user.username
 	
 	@property
-	def recent_message(self):
-		print(dir(self))
+	def is_online(self):
+		"""
+		checks if user has been offline for more than 2 minutes
+		bugs:
+			this isnt correct.
+		"""
+		delta = timezone.now() - self.user.last_login
+		return delta.seconds < 120
 		
 		
 class Message(models.Model):

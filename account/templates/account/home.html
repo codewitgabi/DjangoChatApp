@@ -101,7 +101,9 @@
 								@{{ friend.user.username }}
 							</i>
 						</legend>
-						<div class="online"></div>
+						{% if friend.is_online %}
+							<div class="online"></div>
+						{% endif %}
 						<p class="recent-msg">{% display_recent_message request friend %}</p>
 					</div>
 				</div>
