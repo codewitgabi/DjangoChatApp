@@ -12,7 +12,6 @@ from .forms import (RegisterForm,
 	UserUpdateForm,
 	CustomAdminPasswordChangeForm,
 	CustomPasswordChangeForm)
-from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
 from social_django.models import UserSocialAuth
