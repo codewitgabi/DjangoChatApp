@@ -21,6 +21,24 @@ class RegisterForm(UserCreationForm):
 	class Meta:
 		model = User
 		fields = ["username", "email", "password1"]
+		
+	def clean_password1(self, *args, **kwargs):
+		symbols = "@#_~[]{}()$&?%/"
+		password = self.cleaned_data.get("password1")
+		
+		# MinimumLengthValidator
+		if len(password) < 10:
+			raise forms.ValidationError("Password is too short.")
+		
+		# CommonPasswordValidator
+		if password.isdigit() or password.isalpha():
+			raise forms.ValidationError("Password is too common.")
+		
+		# NoSymbolValidator
+		if not any([sym in symbols for sym in password]):
+			raise forms.ValidationError(f"Password should contain any of {symbols}")
+			
+		return password;
 
 
 class ChatterUpdateForm(forms.ModelForm):

@@ -10,7 +10,7 @@ register = template.Library()
 @register.inclusion_tag("account/last_message.html")
 def display_recent_message(request, friend):
 	sender = Chatter.objects.get(user=request.user)
-	receiver = Chatter.objects.get(user=User.objects.get(id=friend.id, username=friend))
+	receiver = Chatter.objects.get(user=User.objects.get(id=friend.user.id, username=friend))
 	
 	sender_messages = Message.objects.filter(
 		sender= sender,

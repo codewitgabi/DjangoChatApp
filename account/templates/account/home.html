@@ -89,7 +89,7 @@
 				<div class="flex-2">
 					<!-- first col -->
 					<div class="l-left-part">
-						<a href="{% url 'chat' friend.id friend.user.username %}">
+						<a href="{% url 'chat' friend.user.id friend.user.username %}">
 							<img src="{{ friend.image.url }}" class="img" alt="">
 						</a>
 					</div>

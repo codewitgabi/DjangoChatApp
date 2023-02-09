@@ -79,11 +79,13 @@ def add_friends(request):
 @login_required(login_url="login")
 @is_account_owner
 def update(request, id):
-	chatter = get_object_or_404(Chatter, id=id)
+	user = get_object_or_404(User, id=id)
+	chatter = user.chatter
+	
 	form1 = ChatterUpdateForm(request.POST or None,
 		request.FILES, instance=chatter)
 	form2 = UserUpdateForm(
-		request.POST or None, instance=chatter.user)
+		request.POST or None, instance=user)
 		
 	if form1.is_valid() and form2.is_valid():
 		form1.save()
@@ -91,13 +93,14 @@ def update(request, id):
 		
 	return render(request, "account/update-profile.html", {"form1": form1, "form2": form2})
 	
+	
 def complete_add_friend(request):
 	data = json.loads(request.body)
-	user_obj = User.objects.get(username=data.get("friend"))
+	user_obj = User.objects.get(id=data.get("friend"))
 	chatter_obj = Chatter.objects.get(user= user_obj)
 	c = Chatter.objects.get(user=request.user)
 	c.friends.add(chatter_obj)
-	return JsonResponse("done", safe= False)
+	return JsonResponse("added", safe= False)
 	
 	
 @login_required(login_url= "login")

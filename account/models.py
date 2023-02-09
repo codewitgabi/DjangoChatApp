@@ -1,9 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
+import uuid
 
 
 class User(AbstractUser):
+	id = models.UUIDField(
+		primary_key=True,
+		editable=False,
+		default=uuid.uuid4)
 	username        = models.CharField(max_length= 100)
 	email               = models.EmailField(unique= True)
 	
@@ -15,6 +20,10 @@ class User(AbstractUser):
 		
 
 class Chatter(models.Model):
+	id = models.UUIDField(
+		primary_key=True,
+		editable=False,
+		default=uuid.uuid4)
 	user = models.OneToOneField(User, on_delete= models.CASCADE)
 	image = models.ImageField(upload_to= "db_images/", default= "img/download.png")
 	friends = models.ManyToManyField("self")
