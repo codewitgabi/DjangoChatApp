@@ -2,102 +2,101 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="{% static 'css/chat.css' %}">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<title>{% block title %} {% endblock %}</title>
-</head>
-<body>
-	{% block content %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>{% block title %} {% endblock %}</title>
+  </head>
+  <body>
+    {% block content %} {% endblock %}
 
-	{% endblock %}
-	
+    <script>
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          const cookies = document.cookie.split(";");
+          for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      const csrftoken = getCookie("csrftoken");
+    </script>
 
-	<script>
-		function getCookie(name) {
-			var cookieValue = null;
-			if (document.cookie && document.cookie !== '') {
-				const cookies = document.cookie.split(';');
-				for (var i = 0; i < cookies.length; i++) {
-					const cookie = cookies[i].trim();
-					if (cookie.substring(0, name.length + 1) === (name + '=')) {
-						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-						break;
-					}
-				}
-			}
-			return cookieValue;
-		}
-		const csrftoken = getCookie('csrftoken');
+    <script>
+      let chat_form = document.getElementById("chat-form");
+      let id = "{{id}}";
+      let uname = "{{uname}}";
+      let sendMessageURL = `/send-message/${id}/${uname}/`;
 
-	</script>
-	
-	<script>
-		var chat_form = document.getElementById('chat-form');
-		var id = "{{id}}";
-		var uname = "{{uname}}";
-		var sendMessageURL = `/send-message/${id}/${uname}/`;
+      chat_form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        let message = chat_form.message.value;
 
-		chat_form.addEventListener('submit', function (e) {
-			e.preventDefault();
-			var message = chat_form.message.value;
+        fetch(sendMessageURL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken,
+          },
+          body: JSON.stringify({
+            message: message,
+          }),
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            chat_form.message.value = "";
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      });
+    </script>
 
-			fetch(sendMessageURL, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					"X-CSRFToken": csrftoken
-				},
-				body: JSON.stringify({
-					"message": message
-				})
-			})
-			.then(response => {
-				return response.json();
-			})
-			.then(data => {
-				console.log(data);
-				chat_form.message.value = "";
-			})
-			.catch(error => {
-				alert(error);
-			})
-		})
+    <script>
+      let addFriendBtn = document.getElementsByClassName("add-friend-btn");
+      let add_friend_url = "{% url 'complete-add-friend' %}";
 
-	</script>
-	
-	<script>
-		let addFriendBtn = document.getElementsByClassName("add-friend-btn");
-		let add_friend_url = "{% url 'complete-add-friend' %}";
-		
-		for (let btn of addFriendBtn) {
-			btn.addEventListener("click", function () {
-				let data = this.dataset.friend;
-				
-				fetch(add_friend_url, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-						"X-CSRFToken": csrftoken
-					},
-					body: JSON.stringify({"friend": data})
-				})
-				.then(resp => resp.json())
-				.then(data => {
-					btn.textContent = "Followed";
-					btn.disabled = true;
-				})
-				.catch(error => {
-					alert(error);
-				})
-			})
-		}
-	</script>
-	
-	<script src="{% static 'js/nav.js' %}"></script>
-	
-</body>
+      for (let btn of addFriendBtn) {
+        btn.addEventListener("click", function () {
+          let data = this.dataset.friend;
+
+          fetch(add_friend_url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": csrftoken,
+            },
+            body: JSON.stringify({ friend: data }),
+          })
+            .then((resp) => resp.json())
+            .then((data) => {
+              btn.textContent = "Followed";
+              btn.disabled = true;
+            })
+            .catch((error) => {
+              alert(error);
+            });
+        });
+      }
+    </script>
+
+    <script src="{% static 'js/nav.js' %}"></script>
+  </body>
 </html>

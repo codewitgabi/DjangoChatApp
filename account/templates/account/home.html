@@ -1,120 +1,113 @@
 {% extends 'account/base.html' %}
 {% load static %}
-{% load custom_tags %}
-{% block title %} Friends {% endblock %}
-
+{% load custom_tags %} {% block title %} Friends {% endblock %}
 
 {% block content %}
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-        	display: flex;
-        	flex-direction: column;
-        	min-height: 100vh;
-        }
-        .header, .wrapper {
-            margin: 1em;
-            padding: 15px;
-            background: #fff;
-            box-shadow: 0 0 10px green;
-            /*border-radius: 10px;*/
-        }
-        .header legend {
-            font-size: 1.2em;
-            font-weight: 400;
-            font-family: Helvetica;
-        }
-        .wrapper {
-            border-radius: 0;
-            box-shadow: 0 0 10px blue;
-            padding: 5px;
-        }
-        .flex-2 {
-            display: flex;
-            gap: 8px;
-            margin: 8px 0;
-        }
-        .img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-        .online {
-            background: lightgreen;
-            width: 10px;
-            height: 10px;
-            border-radius: 5px;
-        }
-        footer {
-            text-align: center;
-            margin-top: auto;
-            margin-bottom: 4.5em;
-            color: blue;
-        }
-        .recent-msg {
-            font-family: Helvetica;
-            font-weight: 400;
-            font-size: 1rem;
-            margin-top: 1em;
-        }
-        @media only screen and (min-width: 658px) {
-            body {
-                width: 600px;
-                margin: 2em auto;
-            }
-        }
-        @media only screen and (min-width: 800px) {
-            body {
-                width: 700px;
-            }
-        }
-    </style>
 
-	<div>
-	
-	{% include "account/nav.html" %}
-	
-    <div class="header">
-		<legend class="title">Friends [{{ friends.count }}]</legend>
-	</div>
-    
-    <div class="wrapper">
-		<div class="row">
-			{% for friend in friends %}
-				<div class="flex-2">
-					<!-- first col -->
-					<div class="l-left-part">
-						<a href="{% url 'chat' friend.user.id friend.user.username %}">
-							<img src="{{ friend.image.url }}" class="img" alt="">
-						</a>
-					</div>
-					<hr>
-					<!-- second col -->
-					<div class="r-flex-part">
-						<legend>
-							<i class="uname">
-								@{{ friend.user.username }}
-							</i>
-						</legend>
-						{% if friend.is_online %}
-							<div class="online"></div>
-						{% endif %}
-						<p class="recent-msg">{% display_recent_message request friend %}</p>
-					</div>
-				</div>
-			{% endfor %}
-		</div>
-	</div>
-	
-	</div>
-	
-	<footer>
-		codewitgabi &copy;2022
-	</footer>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .header,
+  .wrapper {
+    margin: 1em;
+    padding: 15px;
+    background: #fff;
+    box-shadow: 0 0 10px green;
+  }
+  .header legend {
+    font-size: 1.2em;
+    font-weight: 400;
+    font-family: Helvetica;
+  }
+  .wrapper {
+    border-radius: 0;
+    box-shadow: 0 0 10px blue;
+    padding: 5px;
+  }
+  .flex-2 {
+    display: flex;
+    gap: 8px;
+    margin: 8px 0;
+  }
+  .img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  .online {
+    background: lightgreen;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+  }
+  footer {
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: 4.5em;
+    color: blue;
+  }
+  .recent-msg {
+    font-family: Helvetica;
+    font-weight: 400;
+    font-size: 1rem;
+    margin-top: 1em;
+  }
+  @media only screen and (min-width: 658px) {
+    body {
+      width: 600px;
+      margin: 2em auto;
+    }
+  }
+  @media only screen and (min-width: 800px) {
+    body {
+      width: 700px;
+    }
+  }
+</style>
+
+<div>
+  {% include "account/nav.html" %}
+
+  <div class="header">
+    <legend class="title">Friends [{{ friends.count }}]</legend>
+  </div>
+
+  <div class="wrapper">
+    <div class="row">
+      {% for friend in friends %}
+      <div class="flex-2">
+        <!-- first col -->
+        <div class="l-left-part">
+          <a href="{% url 'chat' friend.user.id friend.user.username %}">
+            <img src="{{ friend.image.url }}" class="img" alt="" />
+          </a>
+        </div>
+        <hr />
+        <!-- second col -->
+        <div class="r-flex-part">
+          <legend>
+            <i class="uname"> @{{ friend.user.username }} </i>
+          </legend>
+          {% if friend.is_online %}
+          <div class="online"></div>
+          {% endif %}
+          <p class="recent-msg">{% display_recent_message request friend %}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<footer>codewitgabi &copy;2022</footer>
 
 {% endblock %}

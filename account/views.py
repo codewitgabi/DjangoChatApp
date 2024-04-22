@@ -47,7 +47,7 @@ def signup(request):
 	if request.method == 'POST':
 		form = RegisterForm(request.POST)
 		if form.is_valid():
-			inactive_user = send_verification_email(request, form)
+			send_verification_email(request, form)
 			return redirect("verify-email")
 	return render(request, 'account/signup.html', {"form": form})
 
@@ -69,7 +69,7 @@ def add_friends(request):
 	chatter_obj = Chatter.objects.get(user= user)
 	friends = []
 	for data in Chatter.objects.all():
-		if not data in chatter_obj.friends.all() and data != chatter_obj:
+		if data not in chatter_obj.friends.all() and data != chatter_obj:
 			friends.append(data)
 			
 	return render(request, "account/add-friend.html", {"friends": friends})
@@ -163,7 +163,6 @@ def getMessage(request, id, username):
 	
 	for message in db_messages:
 		message["sender_id"] = User.objects.get(id= message["sender_id"]).username
-		#message["date_created"] = str(message["date_created"])[:5]
 		chat_messages.append(message)
 		
 	return JsonResponse({
@@ -201,13 +200,13 @@ def settings_view(request):
 @login_required
 def password(request):
 	if request.user.has_usable_password():
-		PasswordForm = CustomPasswordChangeForm
+		password_form = CustomPasswordChangeForm
 	else:
-		PasswordForm = CustomAdminPasswordChangeForm
+		password_form = CustomAdminPasswordChangeForm
 		
-	form = PasswordForm(request.user)
+	form = password_form(request.user)
 	if request.method == 'POST':
-		form = PasswordForm(request.user, request.POST)
+		form = password_form(request.user, request.POST)
 		if form.is_valid():
 			form.save()
 			update_session_auth_hash(request, form.user)

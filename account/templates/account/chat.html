@@ -4,145 +4,137 @@
 
 {% block content %}
 
-	<style>
-		#chat-form {
-			display: flex;
-			gap: 5px;
-		}
-		#chat-form input {
-			width: 100%;
-			padding: 10px;
-			border: 2px solid #000;
-		}
-		.fa-paper-plane {
-			font-size: 30px;
-		}
-		#chat-form button {
-			background: #fff;
-			border: none;
-		}
-		.account-wrapper {
-			margin: 1em;
-			margin-bottom: 5em;
-			box-shadow: 0 0 8px blue;
-			display: flex;
-			justify-content: space-between;
-			flex-direction: column;
-			min-height: 80vh;
-		}
-		.header {
-			background: #fff;
-			box-shadow: 0 0 8px green;
-			padding: 5px;
-			margin: 1em;
-		}
-		.cols {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-		.f-right {
-			display: flex;
-			gap: 10px;
-			align-items: center;
-		}
-		.f-right img {
-			width: 40px;
-			height: 40px;
-			border-radius: 20px;
-			object-fit: cover;
-		}
-		.f-right legend {
-			font-weight: 500;
-			font-family: "Poppins";
-		}
-		.fa-arrow-left {
-			font-size: 30px
-		}
-		.cols a {
-			color: #000;
-		}
-		@media only screen and (min-width: 800px) {
-			body {
-				width: 700px;
-				margin: 1em auto;
-			}
-		}
-	</style>
+<style>
+  #chat-form {
+    display: flex;
+    gap: 5px;
+  }
+  #chat-form input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #000;
+  }
+  .fa-paper-plane {
+    font-size: 30px;
+  }
+  #chat-form button {
+    background: #fff;
+    border: none;
+  }
+  .account-wrapper {
+    margin: 1em;
+    margin-bottom: 5em;
+    box-shadow: 0 0 8px blue;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    min-height: 80vh;
+  }
+  .header {
+    background: #fff;
+    box-shadow: 0 0 8px green;
+    padding: 5px;
+    margin: 1em;
+  }
+  .cols {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .f-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .f-right img {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    object-fit: cover;
+  }
+  .f-right legend {
+    font-weight: 500;
+    font-family: "Poppins";
+  }
+  .fa-arrow-left {
+    font-size: 30px;
+  }
+  .cols a {
+    color: #000;
+  }
+  @media only screen and (min-width: 800px) {
+    body {
+      width: 700px;
+      margin: 1em auto;
+    }
+  }
+</style>
 
-	{% include "account/nav.html" %}
-	
-	<div class="header">
-		<div class="cols">
-			<!-- first col -->
-			<a href="{% url 'home' request.user.id request.user.username %}">
-				<i class="fa fa-arrow-left"></i>
-			</a>
-			<!-- second col -->
-			<div class="f-right">
-				<img src="{{ friend.image.url }}" alt="">
-				<legend>{{ uname }}</legend>
-			</div>
-		</div>
-	</div>
+{% include "account/nav.html" %}
 
-	<div class="account-wrapper reduce-padding">
-	
-		<!-- Do not delete this div. It is the chat renderer -->
-		<div id= "chat-box"></div>
-		
-		<form method="post" id="chat-form">
-			{% csrf_token %}
-			<input type="text" name="message" required placeholder="Type Message...">
-			<button><i class="fa fa-paper-plane"></i></button>
-		</form>
-	</div>
+<div class="header">
+  <div class="cols">
+    <!-- first col -->
+    <a href="{% url 'home' request.user.id request.user.username %}">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <!-- second col -->
+    <div class="f-right">
+      <img src="{{ friend.image.url }}" alt="" />
+      <legend>{{ uname }}</legend>
+    </div>
+  </div>
+</div>
+
+<div class="account-wrapper reduce-padding">
+  <!-- Do not delete this div. It is the chat renderer -->
+  <div id="chat-box"></div>
+
+  <form method="post" id="chat-form">
+    {% csrf_token %}
+    <input type="text" name="message" required placeholder="Type Message..." />
+    <button><i class="fa fa-paper-plane"></i></button>
+  </form>
+</div>
 
 <script>
-	var id = "{{ id }}";
-	var uname = "{{ uname }}";
-	var getMessageURL = `/get-message/${id}/${uname}/`;
-	var sender = "{{ request.user }}";
-	var senderID = "{{ request.user.id }}";
-	var chatContent = document.getElementById("chat-box");
+  var id = "{{ id }}";
+  var uname = "{{ uname }}";
+  var getMessageURL = `/get-message/${id}/${uname}/`;
+  var sender = "{{ request.user }}";
+  var senderID = "{{ request.user.id }}";
+  var chatContent = document.getElementById("chat-box");
 
-	function getChatMessages () {
-		var request = new XMLHttpRequest();
-		request.open("GET", getMessageURL)
-		request.onload = function () {
-			data = JSON.parse(request.responseText);
-			var chatHTML = "";
+  function getChatMessages() {
+    var request = new XMLHttpRequest();
+    request.open("GET", getMessageURL);
+    request.onload = function () {
+      let data = JSON.parse(request.responseText);
+      var chatHTML = "";
 
-			for (var i = 0; i < data.chat_messages.length; i++)
-			{
-				if (sender === data.chat_messages[i].sender_id)
-				{
-					chatHTML += `
+      for (var i = 0; i < data.chat_messages.length; i++) {
+        if (sender === data.chat_messages[i].sender_id) {
+          chatHTML += `
 					<div class="message-box go-right">
 						<p>${data.chat_messages[i].message}</p>
 						<span id="date">${data.chat_messages[i].date_created}</span>
 					</div>
 					`;
-				}
-				else
-				{
-					chatHTML += `
+        } else {
+          chatHTML += `
 						<div class="message-box">
 							<span>@${data.chat_messages[i].sender_id}</span>
 							<p>${data.chat_messages[i].message}</p>
 							<span id="date">${data.chat_messages[i].date_created}</span>
 						</div>
 					`;
-				}
-
-			}
-			chatContent.innerHTML = chatHTML;
-		}
-		request.send()
-	}
-	window.setInterval(getChatMessages, 1000);
-
+        }
+      }
+      chatContent.innerHTML = chatHTML;
+    };
+    request.send();
+  }
+  window.setInterval(getChatMessages, 1000);
 </script>
-
 
 {% endblock %}
